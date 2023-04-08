@@ -1,35 +1,77 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.jar.Attributes.Name;
 
 public class Students {
     int Id;
     String Name;
     double Score;
+    String Rank;
+    int Pass = 0;
+    int Failed = 0;
     int numberStudents;
 
-    //libary JAVA
+    // libary JAVA
     Scanner scanner = new Scanner(System.in);
     // Students studentsList[]= new Students[numberStudents];
     List<Students> studentsList = new ArrayList<Students>(numberStudents);
-
 
     public Students() {
 
     }
 
+    public double getScore() {
+        return Score;
+    }
+
+    public void setScore(double score) {
+        Score = score;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public void setPass(int pass) {
+        Pass = pass;
+    }
+
+    public int getPass() {
+        return Pass;
+    }
+
+    public void setFailed(int failed) {
+        Failed = failed;
+    }
+
+    public int getFailed() {
+        return Failed;
+    }
+
     public Students(int Id, String Name, double Score) {
-        super();
-        this.Id = Id;
-        this.Name = Name;
-        this.Score = Score;
+
+        this.setId(Id);
+        this.setName(Name);
+        this.setScore(Score);
+        this.StudentsRank();
     }
 
     @Override
     public String toString() {
-        return "Student [MSSV " + Id + ", Ten sinh vien " + Name + ", Diem so " + Score + "]";
+        return "Student [MSSV " + Id + ", Ten sinh vien " + Name + ", Diem so " + Score + ", Rank " + Rank + "]";
     }
 
     public void Input() {
@@ -37,26 +79,78 @@ public class Students {
         System.out.println("Nhap so luong sinh vien");
         numberStudents = scanner.nextInt();
 
-        for(int i =0; i<numberStudents ; i++){
+        for (int i = 0; i < numberStudents; i++) {
             System.out.println("Nhap MSSV:");
             int Id = scanner.nextInt();
             scanner.nextLine();
             System.out.println("Nhap ten sinh vien:");
             String Name = scanner.nextLine();
             System.out.println("Nhap diem so:");
-            double Score = scanner.nextDouble();    
+            double Score = scanner.nextDouble();
 
-            Students students = new Students(Id , Name , Score);
-            studentsList.add(students);
-        }       
+            Students student = new Students(Id, Name, Score);
+            studentsList.add(student);
+        }
     }
 
-    public void StudentsList(){
+    public void StudentsList() {
         System.out.println("Danh sach sinh vien");
 
-        for(int i =0; i < studentsList.size() ; i++){
+        for (int i = 0; i < studentsList.size(); i++) {
             System.out.println(studentsList.toString());
-         }
+            if(Score<5){
+                Failed++;
+            }
+            else
+            Pass++;
+        }
+        this.DauRotStudents(studentsList);
+   
     }
 
+    public void StudentsRank() {
+
+        if (Score >= 0 && Score <= 10) {
+            if (Score >= 4 && Score < 5.5) {
+
+                Rank = "Yeu";
+                Failed++;
+            } else if (Score >= 5.5 && Score < 7) {
+                Rank = "Trung binh";
+                Pass++;
+            }
+
+            else if (Score >= 7 && Score < 8.5) {
+                Rank = "Kha";
+                Pass++;
+
+            } else if (Score >= 8.5 && Score < 9.5) {
+                Rank = "Gioi";
+                Pass++;
+            } else if (Score >= 9.5) {
+                Rank = "Xuat sac";
+                Pass++;
+            } else {
+                Rank = "Kem";
+                Failed++;
+            }
+
+        } else {
+            Rank = "Khong xac dinh";
+        }
+
+    }
+
+    public void DauRotStudents(List<Students> studentsList) {
+
+        if (!studentsList.isEmpty()) {
+            int lastIndex = studentsList.size() - 1;
+            Students lastElement = studentsList.get(lastIndex);
+            System.out.println("So sinh vien dau " + lastElement.Pass);
+            System.out.println("So sinh vien rot " + lastElement.Failed);
+
+        } else {
+            System.out.println("ArrayList rỗng:");
+        }
+    }
 }
