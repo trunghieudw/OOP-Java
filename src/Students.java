@@ -61,20 +61,30 @@ public class Students {
         return Failed;
     }
 
-    public Students(int Id, String Name, double Score) {
-
-        this.setId(Id);
-        this.setName(Name);
-        this.setScore(Score);
-        this.StudentsRank();
-    }
+//    public Student(int Id, String Name, double Score) {
+//
+//        this.setId(Id);
+//        this.setName(Name);
+//        this.setScore(Score);
+//        this.StudentsRank();
+//    }
+    
+    
 
     @Override
     public String toString() {
-        return "Student [MSSV " + Id + ", Ten sinh vien " + Name + ", Diem so " + Score + ", Rank " + Rank + "]";
+        return "Student [MSSV: " + Id + ", Ten sinh vien: " + Name + ", Diem so: " + Score + ", Xep Loai: " + Rank + "]";
     }
 
-    public void Input() {
+    public Students(int id, String name, double score) {
+	super();
+	Id = id;
+	Name = name;
+	Score = score;
+	this.StudentsRank();
+}
+
+	public void Input() {
 
         System.out.println("Nhap so luong sinh vien");
         numberStudents = scanner.nextInt();
@@ -93,20 +103,23 @@ public class Students {
         }
     }
 
+
+    
     public void StudentsList() {
         System.out.println("Danh sach sinh vien");
 
         for (int i = 0; i < studentsList.size(); i++) {
-            System.out.println(studentsList.toString());
-            if(Score<5){
+            Students s = studentsList.get(i);
+            System.out.println(s.toString());
+            if (s.Score < 5) {
                 Failed++;
+            } else {
+                Pass++;
             }
-            else
-            Pass++;
         }
         this.DauRotStudents(studentsList);
-   
     }
+
 
     public void StudentsRank() {
 
@@ -141,16 +154,39 @@ public class Students {
 
     }
 
+//    public void DauRotStudents(List<Student> studentsList) {
+//
+//        if (!studentsList.isEmpty()) {
+//            int lastIndex = studentsList.size() - 1;
+//            Student lastElement = studentsList.get(lastIndex);
+//            System.out.println("So sinh vien dau " + lastElement.Pass);
+//            System.out.println("So sinh vien rot " + lastElement.Failed);
+//
+//        } else {
+//            System.out.println("ArrayList rỗng:");
+//        }
+//    }
+    
     public void DauRotStudents(List<Students> studentsList) {
-
         if (!studentsList.isEmpty()) {
-            int lastIndex = studentsList.size() - 1;
-            Students lastElement = studentsList.get(lastIndex);
-            System.out.println("So sinh vien dau " + lastElement.Pass);
-            System.out.println("So sinh vien rot " + lastElement.Failed);
-
+            int totalStudents = studentsList.size();
+            int totalPassed = 0;
+            for (Students s : studentsList) {
+                if (s.Score >= 5) {
+                    totalPassed++;
+                }
+            }
+            int totalFailed = totalStudents - totalPassed;
+//          double passPercentage = (double)totalPassed / totalStudents * 100;
+//          double failPercentage = (double)totalFailed / totalStudents * 100;
+            System.out.println("So sinh vien dau: " + totalPassed);
+            System.out.println("So sinh vien rot: " + totalFailed);
         } else {
-            System.out.println("ArrayList rỗng:");
+            System.out.println("Danh sach sinh vien rong");
         }
     }
+
+
+
+
 }
